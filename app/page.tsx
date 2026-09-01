@@ -1,3 +1,5 @@
+import { ChatWidget } from '@/components/chat-widget';
+
 export default function Home() {
   return (
     <main className="original-page-shell">
@@ -6,6 +8,7 @@ export default function Home() {
         src="/investor-original.html"
         title="Check Out Your Investment Professional | Investor.gov"
       />
+      <ChatWidget />
     </main>
   );
 }
