@@ -40,6 +40,91 @@
       background-size: cover;
     }
   }
+
+  /* The archived icon font files are not part of the local copy. */
+  #fnrwwidget i.close.icon.closebutton::before,
+  #fnrwwidget i.close.icon.closebutton::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 7px;
+    width: 28px;
+    height: 7px;
+    margin: 0;
+    border: 0;
+    border-radius: 1px;
+    background: #252525 !important;
+  }
+
+  #fnrwwidget i.close.icon.closebutton::before {
+    transform: rotate(45deg);
+  }
+
+  #fnrwwidget i.close.icon.closebutton::after {
+    transform: rotate(-45deg);
+  }
+
+  #fnrwwidget #individuallayout,
+  #fnrwwidget #firmlayout {
+    position: relative;
+  }
+
+  #fnrwwidget #individuallayout i.close.icon.closebutton,
+  #fnrwwidget #firmlayout i.close.icon.closebutton {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    left: auto;
+    margin: 0;
+    z-index: 5;
+  }
+
+  #fnrwwidget .ui.icon.input > i.black.search.icon::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    margin: 0;
+    border: 3px solid #00325b;
+    border-radius: 50%;
+    background: transparent !important;
+    box-sizing: border-box;
+  }
+
+  #fnrwwidget .ui.icon.input > i.black.search.icon::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 8px;
+    height: 3px;
+    margin: 0;
+    border: 0;
+    border-radius: 2px;
+    background: #00325b;
+    transform: rotate(45deg);
+    transform-origin: left center;
+  }
+
+  #fnrwwidget .ui.active.centered.inline.loader::before,
+  #fnrwwidget .ui.active.centered.inline.loader::after {
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    border-width: 2px;
+    box-sizing: border-box;
+  }
+
+  #fnrwwidget .ui.active.centered.inline.loader::before {
+    border-color: #d4d8dc;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .22);
+  }
+
+  #fnrwwidget .ui.active.centered.inline.loader::after {
+    border-color: #8c9399 transparent transparent;
+  }
 </style>
 </head>
 <body>
