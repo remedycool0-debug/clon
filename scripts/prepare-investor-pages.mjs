@@ -34,6 +34,18 @@ const corePages = {
     '/introduction-investing/getting-started/working-investment-professional/sec-action-lookup',
   'ask-questions':
     '/introduction-investing/getting-started/working-investment-professional/ask-questions',
+  'research-using-edgar':
+    '/introduction-investing/getting-started/researching-investments/using-edgar-research-investments',
+  'research-ask-and-check':
+    '/introduction-investing/getting-started/researching-investments/ask-and-check',
+  'research-using-emma':
+    '/introduction-investing/getting-started/researching-investments/using-emma-researching-municipal',
+  'research-how-read-10-k':
+    '/introduction-investing/getting-started/researching-investments/how-read-10-k',
+  'research-how-read-8-k':
+    '/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/how-read-8',
+  'research-insider-transactions':
+    '/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-69',
 };
 
 let sidebarManifest = [];
@@ -65,6 +77,8 @@ const routeLookup = Object.fromEntries(Object.values(pages).map((route) => [rout
 // Investor.gov homepage on a separate local route so the Home breadcrumb can
 // navigate without replacing the clone's entry page.
 routeLookup['/'] = '/investor-home';
+routeLookup['/research-before-you-invest/methods-investing/working-investment-professional'] =
+  '/introduction-investing/getting-started/working-investment-professional';
 
 const localOverrides = `
 <style data-local-investor-overrides>
@@ -78,24 +92,40 @@ const localNavigation = `
 (function () {
   var localRoutes = ${JSON.stringify(routeLookup)};
 
-  function routeFor(link) {
+  function prepareLink(link) {
     try {
+      var rawHref = link.getAttribute('href');
+      if (!rawHref || rawHref.charAt(0) === '#') return;
+
+      var currentPage = window.top.location.href;
+      var isLogo = link.matches('.banner-seal a, .banner-org-name a, a[rel="home"]');
+      if (isLogo) {
+        link.href = currentPage;
+        link.target = '_top';
+        return;
+      }
+
       var url = new URL(link.href, document.baseURI);
-      return url.hostname === 'www.investor.gov' && localRoutes[url.pathname]
-        ? localRoutes[url.pathname]
-        : null;
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+      if (url.origin === window.top.location.origin) {
+        link.target = '_top';
+        return;
+      }
+
+      var isInvestorLink =
+        url.hostname === 'www.investor.gov' || url.hostname === 'investor.gov';
+      var route = isInvestorLink ? localRoutes[url.pathname] : null;
+      link.href = route
+        ? window.top.location.origin + route
+        : window.top.location.origin + '/';
+      link.target = '_top';
     } catch (error) {
-      return null;
+      return;
     }
   }
 
   function prepareLinks() {
-    document.querySelectorAll('a[href]').forEach(function (link) {
-      var route = routeFor(link);
-      if (!route) return;
-      link.href = window.top.location.origin + route;
-      link.target = '_top';
-    });
+    document.querySelectorAll('a[href]').forEach(prepareLink);
   }
 
   document.addEventListener('DOMContentLoaded', prepareLinks);

@@ -28,6 +28,20 @@ export const investorPages: Record<string, string> = {
     'using-sali',
   '/introduction-investing/getting-started/working-investment-professional/ask-questions':
     'ask-questions',
+  '/introduction-investing/getting-started/researching-investments/using-edgar-research-investments':
+    'research-using-edgar',
+  '/introduction-investing/getting-started/researching-investments/ask-and-check':
+    'research-ask-and-check',
+  '/introduction-investing/getting-started/researching-investments/using-emma-researching-municipal':
+    'research-using-emma',
+  '/introduction-investing/getting-started/researching-investments/how-read-10-k':
+    'research-how-read-10-k',
+  '/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/how-read-8':
+    'research-how-read-8-k',
+  '/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-69':
+    'research-insider-transactions',
+  '/research-before-you-invest/methods-investing/working-investment-professional':
+    'working-investment-professional',
   ...investorSidebarPages,
   ...investorGlobalMenuPages,
 };
