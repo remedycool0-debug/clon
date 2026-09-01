@@ -1,0 +1,55 @@
+//Version - 0.1
+function getEnvironment()
+{
+    var env = '';
+    var widget = document.getElementById('secwidgetId');
+    var name='env';
+    try {
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(widget.src);
+        env = results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        if (env === null || env === '') {
+            env = '';
+        }
+    }
+    catch(e) {
+        env = '';
+    }
+    return env;
+}
+//Default settings
+var secwidget = window.secwidget || {};
+secwidget.minwidth = "320px";
+secwidget.minheight = "400px";
+secwidget.theme="basic";
+
+
+
+//Create iframe and append to div ia-root
+var j = document.createElement("iframe");
+var secroot = document.getElementById("sec-root")
+j.scrolling = "no";
+j.frameBorder = "0";
+secroot.style.minWidth  = secwidget.minwidth;
+secroot.style.minHeight  = secwidget.minheight;
+secroot.style.height = secwidget.minheight;
+j.width="100%";
+j.height="100%";
+secroot.appendChild(j);
+
+
+function setIframeSrcSEC() {
+    var env = getEnvironment();
+    if(env === 'dev')
+        j.src = "//cdn.dev.finra.org/iapd-widget/index.html";
+    else  if(env === 'qa')
+        j.src = "//cdn.qa.finra.org/iapd-widget/index.html";
+    else  if(env === '')
+        j.src = "//cdn.finra.org/iapd-widget/index.html";
+    else if(env === 'localhost')
+        j.src = "//localhost:8080/index.html";
+    else
+        j.src = "//cdn.finra.org/iapd-widget/index.html";
+}
+
+setTimeout(setIframeSrcSEC, 2);
