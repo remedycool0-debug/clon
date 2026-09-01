@@ -61,6 +61,13 @@ const pages = {
 };
 const routeLookup = Object.fromEntries(Object.values(pages).map((route) => [route, route]));
 
+const localOverrides = `
+<style data-local-investor-overrides>
+  #block-auxiliaryheader {
+    display: none !important;
+  }
+</style>`;
+
 const localNavigation = `
 <script data-local-investor-navigation>
 (function () {
@@ -112,9 +119,12 @@ for (const slug of Object.keys(pages)) {
 
   const baseTag = '<base href="https://www.investor.gov/">';
   if (html.includes('<head>')) {
-    html = html.replace('<head>', `<head>\n${baseTag}`);
+    html = html.replace('<head>', `<head>\n${baseTag}\n${localOverrides}`);
   } else {
-    html = html.replace(/<html([^>]*)>/i, `<html$1>\n<head>\n${baseTag}\n`);
+    html = html.replace(
+      /<html([^>]*)>/i,
+      `<html$1>\n<head>\n${baseTag}\n${localOverrides}\n`,
+    );
   }
 
   html = html.replace('</body>', `${localNavigation}\n</body>`);
