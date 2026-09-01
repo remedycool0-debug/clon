@@ -1,3 +1,4 @@
+import { investorGlobalMenuPages } from '@/lib/investor-global-menu-pages.generated';
 import { investorSidebarPages } from '@/lib/investor-sidebar-pages.generated';
 
 export const investorPages: Record<string, string> = {
@@ -27,6 +28,7 @@ export const investorPages: Record<string, string> = {
   '/introduction-investing/getting-started/working-investment-professional/ask-questions':
     'ask-questions',
   ...investorSidebarPages,
+  ...investorGlobalMenuPages,
 };
 
 export const defaultInvestorPage = 'check-out-your-investment-professional';

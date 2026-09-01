@@ -36,6 +36,7 @@ const corePages = {
 };
 
 let sidebarManifest = [];
+let globalMenuManifest = [];
 
 try {
   sidebarManifest = JSON.parse(
@@ -45,9 +46,18 @@ try {
   if (error.code !== 'ENOENT') throw error;
 }
 
+try {
+  globalMenuManifest = JSON.parse(
+    await readFile(path.join(projectRoot, 'recursos', 'global-menu-pages.json'), 'utf8'),
+  );
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+}
+
 const pages = {
   ...corePages,
   ...Object.fromEntries(sidebarManifest.map((page) => [page.file, page.route])),
+  ...Object.fromEntries(globalMenuManifest.map((page) => [page.file, page.route])),
 };
 const routeLookup = Object.fromEntries(Object.values(pages).map((route) => [route, route]));
 
@@ -88,9 +98,14 @@ await mkdir(outputDir, { recursive: true });
 
 for (const slug of Object.keys(pages)) {
   const isSidebarPage = slug.startsWith('sidebar-');
+  const isGlobalMenuPage = slug.startsWith('global-');
   const sourcePath = path.join(
     sourceDir,
-    ...(isSidebarPage ? ['sidebar-pages', `${slug}.html`] : [`${slug}.html`]),
+    ...(isSidebarPage
+      ? ['sidebar-pages', `${slug}.html`]
+      : isGlobalMenuPage
+        ? ['global-menu-pages', `${slug}.html`]
+        : [`${slug}.html`]),
   );
   const outputPath = path.join(outputDir, `${slug}.html`);
   let html = await readFile(sourcePath, 'utf8');
