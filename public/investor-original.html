@@ -1295,6 +1295,15 @@
 				});
 			})();
 		</script>
+		<script>
+			(function () {
+				var currentPage = window.location.pathname + window.location.search;
+				document.querySelectorAll('.region-sidebar-first nav.menu--main a.menu__link').forEach(function (link) {
+					link.setAttribute('href', currentPage);
+					link.removeAttribute('target');
+				});
+			})();
+		</script>
 
   <noscript><img src="https://www.investor.gov/akam/13/pixel_7c8816ef?a=dD1hNjNiMTQwZWM0M2QyZTg3Y2E2NTE4YjkzZDgyNWY3MjRjNmViZjM2JmpzPW9mZg==" style="visibility: hidden; position: absolute; left: -999px; top: -999px;" /></noscript>
 
