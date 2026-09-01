@@ -1,14 +1,11 @@
-import { ChatWidget } from '@/components/chat-widget';
+import { InvestorPageFrame } from '@/components/investor-page-frame';
+import { defaultInvestorPage } from '@/lib/investor-pages';
 
 export default function Home() {
   return (
-    <main className="original-page-shell">
-      <iframe
-        className="original-page-frame"
-        src="/investor-original.html"
-        title="Check Out Your Investment Professional | Investor.gov"
-      />
-      <ChatWidget />
-    </main>
+    <InvestorPageFrame
+      page={defaultInvestorPage}
+      title="Check Out Your Investment Professional | Investor.gov"
+    />
   );
 }

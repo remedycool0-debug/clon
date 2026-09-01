@@ -6,6 +6,8 @@
     "node": ">=22.13.0 <23"
   },
   "scripts": {
+    "sync:investor-sidebar": "node scripts/sync-investor-sidebar-pages.mjs",
+    "prepare:investor-pages": "node scripts/prepare-investor-pages.mjs",
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "vinext start",
