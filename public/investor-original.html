@@ -1297,11 +1297,32 @@
 		</script>
 		<script>
 			(function () {
+				var refreshLinkSelector = [
+					'.region-sidebar-first nav.menu--main a.menu__link',
+					'.navigation-wrapper #investor-main-menu .nav-submenu-wrapper a:not(.back-link)',
+					'#block-featured-content-block a.card-item'
+				].join(', ');
 				var currentPage = window.location.pathname + window.location.search;
-				document.querySelectorAll('.region-sidebar-first nav.menu--main a.menu__link').forEach(function (link) {
+
+				document.querySelectorAll(refreshLinkSelector).forEach(function (link) {
 					link.setAttribute('href', currentPage);
 					link.removeAttribute('target');
 				});
+
+				document.addEventListener('click', function (event) {
+					var clickedElement = event.target instanceof Element ? event.target : null;
+					var link = clickedElement ? clickedElement.closest(refreshLinkSelector) : null;
+					if (!link) return;
+
+					event.preventDefault();
+					event.stopImmediatePropagation();
+
+					try {
+						window.top.location.reload();
+					} catch (error) {
+						window.location.reload();
+					}
+				}, true);
 			})();
 		</script>
 
