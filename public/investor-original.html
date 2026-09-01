@@ -1169,13 +1169,10 @@
 		<a href="https://www.investor.gov/introduction-investing/getting-started/working-investment-professional/check-out-your-investment-professional#" class="back-to-top" style="display: none; bottom: 126px;"><i class="fa fa-chevron-circle-up" aria-hidden="true"></i>Return to Top</a>
 
 		<script>
-			// Keep every utility link in the lower footer on this saved page.
+			// Preserve the footer exactly as archived, but keep its utility links inert.
 			document.querySelectorAll('#block-investor-footer a').forEach(function (link) {
-				link.setAttribute('href', window.location.href);
-				link.removeAttribute('target');
-				link.removeAttribute('rel');
-				link.querySelectorAll('svg.ext').forEach(function (icon) {
-					icon.remove();
+				link.addEventListener('click', function (event) {
+					event.preventDefault();
 				});
 			});
 
