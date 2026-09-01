@@ -17,6 +17,32 @@
 		</script>
 		<link rel="stylesheet" media="all" href="./Check Out Your Investment Professional _ Investor.gov_files/css_b6hMDrbl-bMvYm5-zzxJ_H3pGB1jUfr0WAhLJutoi5w.css">
 <link rel="stylesheet" media="all" href="./Check Out Your Investment Professional _ Investor.gov_files/css_S3MrEnlQmG6RFT2iCRpTunlV2Hddfo3UBShXO_wlvhY.css">
+		<style>
+			/* Extend the original mega-menu to keyboard and touch input. */
+			@media screen and (min-width: 960px) {
+				#investor-main-menu > .menu-item:focus-within > .nav-submenu-wrapper,
+				#investor-main-menu > .menu-item.submenu-open > .nav-submenu-wrapper {
+					display: block;
+				}
+
+				#investor-main-menu > .menu-item.submenu-open > .menu__link {
+					background: #218383;
+					text-decoration: none;
+				}
+			}
+
+			#investor-main-menu .nav-submenu-wrapper .nav-icon .glossary-link::after {
+				display: grid;
+				place-items: center;
+				width: 42px;
+				height: 42px;
+				border-radius: 50%;
+				background: #fff;
+				color: #bf280d;
+				content: "?";
+				font: 800 34px/1 "Open Sans", sans-serif;
+			}
+		</style>
 
 		<script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"node\/11606","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"gtag":{"tagId":"","consentMode":false,"otherIds":[],"events":[],"additionalConfigInfo":[]},"ajaxPageState":{"libraries":"eJx1kOtuwjAMhV8okGkSz2O5iZWaunEWJ4Xu6dcOkBhof451Plu-YZw584wCulCtHMl8mChy0wo9R4WRpFB1D3iCIj1xhoJhAs6RcoNBNEz-2Ti6NuE8-Vh7QTnerUuqSQgaJp82efVHPOP1L5wd54VsG-2T6IByONsbsrZu7ZMTXLU3iGxhv2f1mimovPM2Vtoz8HmC08em7qvzt9_7kDkjrGEELAzYmwadi1Aj_w_f6gMwlggXjomav4UdJ10eOwazF3K2w0gYt-_euZbGmm8n2mqNZj-gkVuYLuZ_9fahZzBr7EI_b-eyNA","theme":"investor","theme_token":null},"ajaxTrustedUrl":{"\/search":true},"gtm":{"tagId":null,"settings":{"data_layer":"dataLayer","include_classes":false,"allowlist_classes":"","blocklist_classes":"","include_environment":false,"environment_id":"","environment_token":""},"tagIds":["GTM-TNDPFC"]},"data":{"extlink":{"extTarget":true,"extTargetAppendNewWindowDisplay":true,"extTargetAppendNewWindowLabel":"(opens in a new window)","extTargetNoOverride":false,"extNofollow":false,"extTitleNoOverride":false,"extNoreferrer":false,"extFollowNoOverride":false,"extClass":"ext","extLabel":"(link is external)","extImgClass":false,"extSubdomains":true,"extExclude":"https?:\\\/\\\/(.+?\\.)?(.+\\.gov)","extInclude":"","extCssExclude":"","extCssInclude":"","extCssExplicit":"","extAlert":true,"extAlertText":"You are about to leave Investor.gov...\r\n\r\nThe link you have selected is located on another server. Please click on the link below to leave Investor.gov and proceed to the selected site. The SEC does not endorse this web site, its sponsor, or any of the policies, activities, products, or services offered on the site or by any advertiser on the site.","extHideIcons":false,"mailtoClass":"mailto","telClass":"","mailtoLabel":"(link sends email)","telLabel":"(link is a phone number)","extUseFontAwesome":false,"extIconPlacement":"append","extPreventOrphan":false,"extFaLinkClasses":"fa fa-external-link","extFaMailtoClasses":"fa fa-envelope-o","extAdditionalLinkClasses":"","extAdditionalMailtoClasses":"","extAdditionalTelClasses":"","extFaTelClasses":"fa fa-phone","allowedDomains":null,"extExcludeNoreferrer":""}},"views":{"ajax_path":"\/views\/ajax","ajaxViews":{"views_dom_id:3707e256be88aa9ec696fc573e3ee628d35e10d31110589e39df98beac96a41e":{"view_name":"search_content","view_display_id":"block_1","view_args":"","view_path":"\/node\/11606","view_base_path":"search","view_dom_id":"3707e256be88aa9ec696fc573e3ee628d35e10d31110589e39df98beac96a41e","pager_element":0}}},"search_api_autocomplete":{"search_content":{"auto_submit":true}},"user":{"uid":0,"permissionsHash":"1e2153c91a3c78ee985d5c3f54398b3ce8b3dcccde9de9e41d78f89b2baa595a"}}</script>
 <script src="./Check Out Your Investment Professional _ Investor.gov_files/js_qXSn7y03yhkttTz6N5hYkOQpHLoac9-uEF-pdN7ECy4.js.descarga"></script>
@@ -1141,6 +1167,88 @@
 		</script>
 		<script src="./Check Out Your Investment Professional _ Investor.gov_files/jquery.min.js.descarga"></script>
 <script src="./Check Out Your Investment Professional _ Investor.gov_files/js_2eB1T2DBs6jlZzHgwqIkoRqloFxVtjPV2uz-6EKbYAs.js.descarga"></script>
+		<script>
+			(function () {
+				var menu = document.getElementById('investor-main-menu');
+				if (!menu) return;
+
+				var topItems = Array.from(menu.children).filter(function (item) {
+					return item.classList.contains('menu-item--expanded') && item.querySelector(':scope > .nav-submenu-wrapper');
+				});
+
+				function closeItem(item) {
+					var link = item.querySelector(':scope > .menu__link');
+					item.classList.remove('submenu-open');
+					if (link) link.setAttribute('aria-expanded', 'false');
+				}
+
+				function closeAll(except) {
+					topItems.forEach(function (item) {
+						if (item !== except) closeItem(item);
+					});
+				}
+
+				function openItem(item) {
+					var link = item.querySelector(':scope > .menu__link');
+					closeAll(item);
+					item.classList.add('submenu-open');
+					if (link) link.setAttribute('aria-expanded', 'true');
+				}
+
+				topItems.forEach(function (item, index) {
+					var link = item.querySelector(':scope > .menu__link');
+					var submenu = item.querySelector(':scope > .nav-submenu-wrapper');
+					if (!link || !submenu) return;
+
+					var submenuId = 'investor-submenu-' + (index + 1);
+					submenu.id = submenuId;
+					link.setAttribute('aria-haspopup', 'true');
+					link.setAttribute('aria-controls', submenuId);
+					link.setAttribute('aria-expanded', 'false');
+
+					item.addEventListener('mouseenter', function () {
+						if (window.matchMedia('(min-width: 960px)').matches) openItem(item);
+					});
+					item.addEventListener('mouseleave', function () {
+						if (window.matchMedia('(min-width: 960px)').matches && !item.contains(document.activeElement)) closeItem(item);
+					});
+					item.addEventListener('focusin', function () {
+						if (window.matchMedia('(min-width: 960px)').matches) openItem(item);
+					});
+					item.addEventListener('focusout', function (event) {
+						if (!item.contains(event.relatedTarget)) closeItem(item);
+					});
+
+					link.addEventListener('click', function (event) {
+						var touchLayout = window.matchMedia('(min-width: 960px) and (hover: none), (min-width: 960px) and (pointer: coarse)').matches;
+						if (touchLayout && !item.classList.contains('submenu-open')) {
+							event.preventDefault();
+							openItem(item);
+						}
+					});
+
+					item.addEventListener('keydown', function (event) {
+						if (event.key === 'Escape') {
+							closeItem(item);
+							link.focus();
+						}
+					});
+				});
+
+				document.addEventListener('click', function (event) {
+					if (!menu.contains(event.target)) closeAll();
+				});
+				window.addEventListener('resize', function () { closeAll(); });
+
+				/* The archived Drupal script appends the promo tile again on DOM ready. */
+				document.addEventListener('DOMContentLoaded', function () {
+					topItems.forEach(function (item) {
+						var icons = item.querySelectorAll(':scope > .nav-submenu-wrapper > .menu > .nav-icon');
+						Array.from(icons).slice(1).forEach(function (icon) { icon.remove(); });
+					});
+				});
+			})();
+		</script>
 
   <noscript><img src="https://www.investor.gov/akam/13/pixel_7c8816ef?a=dD1hNjNiMTQwZWM0M2QyZTg3Y2E2NTE4YjkzZDgyNWY3MjRjNmViZjM2JmpzPW9mZg==" style="visibility: hidden; position: absolute; left: -999px; top: -999px;" /></noscript>
 
