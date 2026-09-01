@@ -6,6 +6,7 @@
     "node": ">=22.13.0 <23"
   },
   "scripts": {
+    "sync:investor-breadcrumbs": "node scripts/sync-investor-breadcrumb-pages.mjs",
     "sync:investor-global-menu": "node scripts/sync-investor-global-menu-pages.mjs",
     "sync:investor-sidebar": "node scripts/sync-investor-sidebar-pages.mjs",
     "prepare:investor-pages": "node scripts/prepare-investor-pages.mjs",

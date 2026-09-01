@@ -2,6 +2,7 @@ import { investorGlobalMenuPages } from '@/lib/investor-global-menu-pages.genera
 import { investorSidebarPages } from '@/lib/investor-sidebar-pages.generated';
 
 export const investorPages: Record<string, string> = {
+  '/investor-home': 'home',
   '/introduction-investing/getting-started/five-questions-ask-you-invest':
     'five-questions-ask-you-invest',
   '/introduction-investing/getting-started/understanding-fees': 'understanding-fees',

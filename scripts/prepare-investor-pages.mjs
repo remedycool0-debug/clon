@@ -7,6 +7,7 @@ const sourceDir = path.join(projectRoot, 'recursos');
 const outputDir = path.join(projectRoot, 'public', 'investor-pages');
 
 const corePages = {
+  home: '/',
   'five-questions-ask-you-invest':
     '/introduction-investing/getting-started/five-questions-ask-you-invest',
   'understanding-fees': '/introduction-investing/getting-started/understanding-fees',
@@ -60,6 +61,10 @@ const pages = {
   ...Object.fromEntries(globalMenuManifest.map((page) => [page.file, page.route])),
 };
 const routeLookup = Object.fromEntries(Object.values(pages).map((route) => [route, route]));
+// The app root intentionally shows the cloned background-check page. Keep the
+// Investor.gov homepage on a separate local route so the Home breadcrumb can
+// navigate without replacing the clone's entry page.
+routeLookup['/'] = '/investor-home';
 
 const localOverrides = `
 <style data-local-investor-overrides>
