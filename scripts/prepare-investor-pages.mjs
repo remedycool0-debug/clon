@@ -7,6 +7,7 @@ const sourceDir = path.join(projectRoot, 'recursos');
 const outputDir = path.join(projectRoot, 'public', 'investor-pages');
 
 const corePages = {
+  'report-a-scam': '/report-a-scam',
   home: '/',
   'five-questions-ask-you-invest':
     '/introduction-investing/getting-started/five-questions-ask-you-invest',
@@ -85,6 +86,21 @@ const localOverrides = `
   #block-auxiliaryheader {
     display: none !important;
   }
+  @media (min-width: 960px) {
+    #block-investor-main-menu > ul.menu { display: flex; }
+    #block-investor-main-menu > ul.menu > li { width: 20%; flex: 1 1 20%; }
+    #block-investor-main-menu > ul.menu > li > a {
+      display: flex; align-items: center; justify-content: center;
+      padding: 10px 16px !important; min-height: 68px; height: auto !important;
+    }
+  }
+  #block-investor-main-menu .menu-item-report-scam > a {
+    font-weight: 700;
+  }
+  #block-investor-main-menu .menu-item-report-scam > a:focus-visible {
+    outline: 3px solid #ffcf63;
+    outline-offset: -4px;
+  }
 </style>`;
 
 const localNavigation = `
@@ -95,7 +111,17 @@ const localNavigation = `
   function prepareLink(link) {
     try {
       var rawHref = link.getAttribute('href');
-      if (!rawHref || rawHref.charAt(0) === '#') return;
+      if (!rawHref) return;
+      if (rawHref.charAt(0) === '#') {
+        link.href = window.location.href.split('#')[0] + rawHref;
+        link.target = '_self';
+        return;
+      }
+      if (link.hasAttribute('data-official-resource')) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        return;
+      }
 
       var currentPage = window.top.location.href;
       var isLogo = link.matches('.banner-seal a, .banner-org-name a, a[rel="home"]');
@@ -107,6 +133,11 @@ const localNavigation = `
 
       var url = new URL(link.href, document.baseURI);
       if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+      if (url.origin === window.location.origin &&
+          url.pathname === window.location.pathname && url.hash) {
+        link.target = '_self';
+        return;
+      }
       if (url.origin === window.top.location.origin) {
         link.target = '_top';
         return;
@@ -116,7 +147,7 @@ const localNavigation = `
         url.hostname === 'www.investor.gov' || url.hostname === 'investor.gov';
       var route = isInvestorLink ? localRoutes[url.pathname] : null;
       link.href = route
-        ? window.top.location.origin + route
+        ? window.top.location.origin + route + url.hash
         : window.top.location.origin + '/';
       link.target = '_top';
     } catch (error) {
@@ -139,6 +170,7 @@ const localNavigation = `
 await mkdir(outputDir, { recursive: true });
 
 for (const slug of Object.keys(pages)) {
+  const isScamPage = slug === 'report-a-scam';
   const isSidebarPage = slug.startsWith('sidebar-');
   const isGlobalMenuPage = slug.startsWith('global-');
   const sourcePath = path.join(
@@ -147,10 +179,32 @@ for (const slug of Object.keys(pages)) {
       ? ['sidebar-pages', `${slug}.html`]
       : isGlobalMenuPage
         ? ['global-menu-pages', `${slug}.html`]
-        : [`${slug}.html`]),
+        : [`${isScamPage ? 'check-out-your-investment-professional' : slug}.html`]),
   );
   const outputPath = path.join(outputDir, `${slug}.html`);
   let html = await readFile(sourcePath, 'utf8');
+
+  // Extend only the global menu, leaving the article's sidebar intact.
+  const menuStart = html.indexOf('id="block-investor-main-menu"');
+  const menuEnd = html.indexOf('</nav>', menuStart);
+  const menuClose = html.lastIndexOf('</ul>', menuEnd);
+  if (menuStart < 0 || menuClose < menuStart) {
+    throw new Error(`Missing global navigation in ${slug}`);
+  }
+  html = html.slice(0, menuClose).trimEnd() + `
+    <li class="menu-item menu-item-report-scam menu-item-last menu-index-5">
+      <a href="/report-a-scam"${isScamPage ? ' aria-current="page"' : ''}>Report a Scam</a>
+    </li>
+  ` + html.slice(menuClose);
+
+  if (isScamPage) {
+    const content = await readFile(path.join(projectRoot, 'scripts', 'report-a-scam.html'), 'utf8');
+    html = html.replace(/<article\b[\s\S]*?<\/article>/, content);
+    html = html.replace(/<title>[\s\S]*?<\/title>/, '<title>Report a Scam | Reporting &amp; Asset Recovery Guide</title>');
+    html = html.replace(/<link rel="canonical"[^>]*>/, '');
+    html = html.replace(/<meta name="description"[^>]*>/, '<meta name="description" content="Learn how to report a scam, preserve evidence, protect your accounts, and understand asset recovery options." />');
+    html = html.replace(/(<nav class="breadcrumb"[\s\S]*?<ol>)[\s\S]*?<\/ol>/, '$1<li><a href="/">Home</a></li><li>Report a Scam</li></ol>');
+  }
 
   const baseTag = '<base href="https://www.investor.gov/">';
   if (html.includes('<head>')) {
