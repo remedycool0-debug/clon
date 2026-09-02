@@ -83,7 +83,8 @@ routeLookup['/research-before-you-invest/methods-investing/working-investment-pr
 
 const localOverrides = `
 <style data-local-investor-overrides>
-  #block-auxiliaryheader {
+  #block-auxiliaryheader,
+  .usa-banner {
     display: none !important;
   }
   @media (min-width: 960px) {
